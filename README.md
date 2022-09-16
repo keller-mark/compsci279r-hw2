@@ -13,7 +13,7 @@ flutter run -d chrome
 ## Deployment
 
 ```sh
-flutter build web
+flutter build web --base-href "/compsci279r-hw2/"
 ```
 
 ## Resources
