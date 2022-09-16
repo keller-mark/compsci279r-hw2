@@ -6,6 +6,13 @@ void main() {
 }
 
 class TodoItem extends StatelessWidget {
+
+  final Function(int, bool) setChecked;
+  final int id;
+  final String title;
+  final String created;
+  final bool isChecked;
+
   const TodoItem({
     super.key,
     required this.id,
@@ -15,18 +22,14 @@ class TodoItem extends StatelessWidget {
     required this.setChecked,
   });
 
-  final Function(int, bool) setChecked;
-  final int id;
-  final String title;
-  final String created;
-  final bool isChecked;
-
   @override
   Widget build(BuildContext context) {
     return CheckboxListTile(
       title: Text(this.title),
       value: this.isChecked,
       onChanged: (bool? value) {
+        // Call the parent's setChecked callback function.
+        // Reference: https://stackoverflow.com/a/51778268
         this.setChecked(this.id, value!);
       },
     );
@@ -43,30 +46,77 @@ class TodoList extends StatefulWidget {
 
 class _TodoListState extends State<TodoList> {
 
+  // Reference: https://stackoverflow.com/a/63458217
   List<Task> _myTasks = <Task>[];
+  late TextEditingController _controller;
 
   @override
   void initState() {
     super.initState();
-    print("Init state");
+    _controller = TextEditingController();
     _myTasks.add(new Task(id: 0, title: "Test", created: DateTime.now(), isChecked: true));
     _myTasks.add(new Task(id: 1, title: "Test 2", created: DateTime.now(), isChecked: false));
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    print("build");
-    return ListView.builder(
-      padding: const EdgeInsets.all(16.0),
-      itemCount: _myTasks.length * 2,
-      itemBuilder: (context, i) {
-        if(i.isOdd) return const Divider();
-        print("build item");
-        final index = i ~/ 2;
-        final data = _myTasks[index];
-        return TodoItem(id: data.id!, title: data.title!, created: "Now", isChecked: data.isChecked!, setChecked: _setChecked);
-      }
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: ListView.builder(
+            padding: const EdgeInsets.all(16.0),
+            // Specify the number of items that are possible to render.
+            // Multiply by two because we want to include dividers in between.
+            itemCount: _myTasks.length * 2,
+            // Define how each item is rendered.
+            itemBuilder: (context, i) {
+              // If odd, render divider.
+              if(i.isOdd) return const Divider();
+              // Otherwise, render a task item with label/checkbox.
+              // Divide by two to get a list item index.
+              final index = i ~/ 2;
+              final data = _myTasks[index];
+              // Return a TodoItem widget.
+              return TodoItem(id: data.id!, title: data.title!, created: "Now", isChecked: data.isChecked!, setChecked: _setChecked);
+            }
+          )
+        ),
+        TextField(
+          controller: _controller,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: 'Add task',
+          ),
+          onSubmitted: (String value) async {
+            _addTask(value);
+            _controller.text = "";
+          }
+        ),
+        Center(
+          child: TextButton(
+            onPressed: () {
+              setState(() {
+                _myTasks = <Task>[];
+              });
+            },
+            child: Text('Clear all tasks'),
+          )
+        )
+      ]
     );
+  }
+
+  _addTask(String title) {
+    _myTasks.add(new Task(id: _myTasks.length, title: title, created: DateTime.now(), isChecked: false));
+    setState(() {
+      _myTasks = _myTasks;
+    });
   }
 
   _setChecked(int id, bool isChecked) {
@@ -81,8 +131,6 @@ class _TodoListState extends State<TodoList> {
   }
   
 }
-
-
 
 
 /* A flutter app is a "widget" */
