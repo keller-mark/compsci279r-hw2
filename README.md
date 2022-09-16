@@ -10,6 +10,12 @@
 flutter run -d chrome
 ```
 
+## Deployment
+
+```sh
+flutter build web
+```
+
 ## Resources
 
 - [Building a web application with Flutter](https://docs.flutter.dev/get-started/web)
@@ -22,3 +28,4 @@ flutter run -d chrome
 - https://api.flutter.dev/flutter/widgets/Row-class.html
 - https://api.flutter.dev/flutter/material/TextField-class.html
 - https://api.flutter.dev/flutter/material/TextButton-class.html
+- https://docs.flutter.dev/deployment/web#building-the-app-for-release
