@@ -26,6 +26,8 @@ then commit the updated `build/web/` directory to the repository, then wait for 
 
 ## Resources
 
+I used the following resources to learn Dart/Flutter and build the app.
+
 - [Building a web application with Flutter](https://docs.flutter.dev/get-started/web)
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
@@ -37,3 +39,4 @@ then commit the updated `build/web/` directory to the repository, then wait for 
 - https://api.flutter.dev/flutter/material/TextField-class.html
 - https://api.flutter.dev/flutter/material/TextButton-class.html
 - https://docs.flutter.dev/deployment/web#building-the-app-for-release
+- https://stackoverflow.com/a/70569333
