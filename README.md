@@ -1,6 +1,10 @@
 # compsci279r-hw2
 
-## How to develop locally
+## How to open hosted version
+
+Navigate to https://keller-mark.github.io/compsci279r-hw2/ in a web browser.
+
+## How to open locally
 
 1. Install [flutter](https://docs.flutter.dev/get-started/install) and add to `PATH`
 
@@ -12,9 +16,13 @@ flutter run -d chrome
 
 ## Deployment
 
+Run
+
 ```sh
 flutter build web --base-href "/compsci279r-hw2/"
 ```
+
+then commit the updated `build/web/` directory to the repository, then wait for GitHub action to push to GitHub pages.
 
 ## Resources
 
